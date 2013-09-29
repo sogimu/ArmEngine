@@ -1,0 +1,17 @@
+scale
+x,0
+0,y
+
+скос
+1,y
+x,1
+
+rotate
+cos,sin,0
+-sin,cos,0
+0,0,1
+
+translate
+1,0,0
+0,1,0
+x,y,1
