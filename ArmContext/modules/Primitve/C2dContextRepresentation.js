@@ -7,12 +7,12 @@
  */
 
 (function(window) {
-    var C2dContextRepresentation = function() {
+    var C2dContextRepresentation = function(primitive) {
 
         var me = {};
         
         // Ссылка на примитив-владелец объекта данного класса
-        me._primitive = null; 
+        me._primitive = primitive; 
 
         //  Not view properties
         me._ctx = null;
@@ -30,7 +30,7 @@
         me._boundingBox = {};
         me._pictureUnderPrimitive = {};
 
-        me.Update = function(O) {
+        me.Set = function(O) {
             // this._ctx = O.ctx || this._ctx;
             // this._layer = O.layer || this._layer;
             // this._ctx = this._layer ? this._layer.GetCtx() : this._ctx;
@@ -156,6 +156,27 @@
         me.GetZindex = function() {
             return this._zindex;
         };
+
+        me.SetLisener = function(name, func) {
+            gizmo.Filter(name,"String");
+            gizmo.Filter(func,"Function");
+            if(name && func) {
+                this['_' + name] = func;
+            }
+
+            return this;
+        };
+
+        me.GetLisener = function(name) {
+            gizmo.Filter(name,"String");
+            if(this['_' + name]) {
+                return this['_' + name];        
+            } else {
+                return false;
+            }
+
+        };
+
 
         me.ShowDebugInfo = function(ctx) {
             console.log("VisualProperties:");

@@ -1,7 +1,7 @@
 (function(window) {
-    var ImageInternalRepresentation = function() {
+    var ImageInternalRepresentation = function(primitive) {
         
-        var me = new ArmContext.InternalRepresentation();
+        var me = new ArmContext.InternalRepresentation(primitive);
 
         this._width = 10;
         this._height = 10;
@@ -33,7 +33,7 @@
             return this._points;
         };
 
-        me.Update = function(O) {
+        me.Set = function(O) {
             this._width = O.width || this._width;
             this._height = O.height || this._height;
 

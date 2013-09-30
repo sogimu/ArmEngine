@@ -7,9 +7,12 @@
  */
 
 (function(window) {
-    var InternalRepresentation = function() {
+    var InternalRepresentation = function(primitive) {
 
         var me = {};
+        
+        // Ссылка на примитив-владелец объекта данного класса
+        me._primitive = primitive;
 
         me._points = new $M( [
             [0,0,1]
@@ -49,6 +52,26 @@
             for(var i in points) {
                 console.log(points[i]);
             }
+        };
+
+        me.SetLisener = function(name, func) {
+        gizmo.Filter(name,"String");
+            gizmo.Filter(func,"Function");
+            if(name && func) {
+                this['_' + name] = func;
+            }
+
+            return this;
+        };
+
+        me.GetLisener = function(name) {
+            gizmo.Filter(name,"String");
+            if(this['_' + name]) {
+                return this['_' + name];        
+            } else {
+                return false;
+            }
+
         };
 
         return me;

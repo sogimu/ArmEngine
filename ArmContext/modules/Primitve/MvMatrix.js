@@ -7,13 +7,16 @@
  */
 
 (function(window) {
-    var MvMatrix = function() {
+    var MvMatrix = function(primitive) {
 
         var me = {};
 
+        // Ссылка на примитив-владелец объекта данного класса
+        me._primitive = primitive;
+
         me._matrix = new $M([[1,0,0],
-                                                    [0,1,0],
-                                                    [0,0,1]] );
+                            [0,1,0],
+                            [0,0,1]] );
 
         me.Rotate = function( angle ) {
             var a = Math.cos(angle);
@@ -26,6 +29,14 @@
             ]);
 
             this._matrix = this._matrix.x( rotateMatrix );
+
+            if(this._onChanged) {
+                this._onChanged.call(primitive);
+            };
+
+            if(this._onChanged) {
+                this._onChanged.call(primitive);
+            };
 
             return this;
         };
@@ -42,6 +53,10 @@
 
             this._matrix = this._matrix.x( transformMatrix );
 
+            if(this._onChanged) {
+                this._onChanged.call(primitive);
+            };
+
             return this;
         };
 
@@ -56,6 +71,10 @@
             ]);
 
             this._matrix = this._matrix.x( transformMatrix );
+
+            if(this._onChanged) {
+                this._onChanged.call(primitive);
+            };
 
             return this;
  
@@ -72,6 +91,10 @@
             ]);
 
             this._matrix = this._matrix.x( transformMatrix );
+
+            if(this._onChanged) {
+                this._onChanged.call(primitive);
+            };
 
             return this;
         };
@@ -91,6 +114,26 @@
             var f = matrix.elements[2][1];
 
             return {a: a, b: b, c: c, d: d, e: e, f: f};
+
+        };
+
+        me.SetLisener = function(name, func) {
+            gizmo.Filter(name,"String");
+            gizmo.Filter(func,"Function");
+            if(name && func) {
+                this['_' + name] = func;
+            }
+
+            return this;
+        };
+
+        me.GetLisener = function(name) {
+            gizmo.Filter(name,"String");
+            if(this['_' + name]) {
+                return this['_' + name];        
+            } else {
+                return false;
+            }
 
         };
 

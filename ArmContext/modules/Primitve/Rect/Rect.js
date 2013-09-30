@@ -25,13 +25,13 @@
         var me = ArmContext.Primitive();
 
         // Инициализация внутреннего представления
-        me._internalRepresentation = ArmContext.RectInternalRepresentation();
+        me._internalRepresentation = ArmContext.RectInternalRepresentation(me);
 
         // Инициализация canvas представления
         me._2dContextRepresentation = ArmContext.Rect2dContextRepresentation(me);
 
         // Инициализация глобального представления примитива
-        me._globalRepresentation = ArmContext.RectGlobalRepresentation();
+        me._globalRepresentation = ArmContext.RectGlobalRepresentation(me);
 
         me.Draw = function() {
             var ctxRep = this._2dContextRepresentation;
@@ -91,11 +91,26 @@
             var intRep = this._internalRepresentation;
             var ctx = ctxRep.GetCtx();
 
-            ctx.clearRect(0,0,500,500);
+            var boundingBox = this._boundingBox.GetOldPoints();
+            var ctx = ctxRep.GetCtx();
 
+            ctx.clearRect(boundingBox.point0.x,boundingBox.point0.y,boundingBox.width,boundingBox.height);
         };
 
-        me.Update( O );
+        me._internalRepresentation.SetLisener("onChanged", function() {
+            this.SetChanged();            
+        });
+
+        me._2dContextRepresentation.SetLisener("onChanged", function() {
+            this.SetChanged();            
+        });
+
+        me._mvMatrix.SetLisener("onChanged", function() {
+            this.SetChanged();            
+        });
+
+        me.Set( O );
+        me.Update();
 
         return me;
 

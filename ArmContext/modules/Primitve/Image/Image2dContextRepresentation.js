@@ -1,11 +1,9 @@
 (function(window) {
     var Image2dContextRepresentation = function(primitive) {
 
-        var me = ArmContext.C2dContextRepresentation();
+        var me = ArmContext.C2dContextRepresentation(primitive);
 
-        me._primitive = primitive;
-
-        me.parentUpdate = me.Update ? me.Update : null;
+        me.parentSet = me.Set ? me.Set : null;
 
         // View properties
 
@@ -15,8 +13,8 @@
             return this._image;
         };
 
-        me.Update = function(O) {
-            if(this.parentUpdate) {    this.parentUpdate( O );    };
+        me.Set = function(O) {
+            if(this.parentSet) {    this.parentSet( O );    };
             
             this._image = O.image || this._image;             
         };

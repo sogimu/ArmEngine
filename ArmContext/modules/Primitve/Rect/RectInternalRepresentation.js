@@ -1,7 +1,7 @@
 (function(window) {
-    var RectInternalRepresentation = function() {
+    var RectInternalRepresentation = function(primitive) {
 
-        var me = new ArmContext.InternalRepresentation();
+        var me = new ArmContext.InternalRepresentation(primitive);
 
         this._width = 10;
         this._height = 10;
@@ -33,9 +33,24 @@
             return this._points;
         };
 
-        me.Update = function(O) {
-            this._width = O.width || this._width;
-            this._height = O.height || this._height;
+        me.Set = function(O) {
+            for(var name in O) {
+                switch( name ) {
+                    case "width" : { 
+                        this._width  = O[name];
+                        if(this._onChanged) {
+                this._onChanged.call(primitive);
+            };
+                    }; break;
+                    case "height" : {
+                        this._height = O[name];
+                        if(this._onChanged) {
+                this._onChanged.call(primitive);
+            };
+                    };
+                    break;
+                };
+            };
 
             this._points = new $M( [
                 [0          ,0           ,1],

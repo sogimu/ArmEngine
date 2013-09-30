@@ -7,10 +7,13 @@
  */
 
 (function(window) {
-    var GlobalRepresentation = function() {
+    var GlobalRepresentation = function(primitive) {
 
         var me = {};
 
+        // Ссылка на примитив-владелец объекта данного класса
+        me._primitive = primitive;
+        
         me._points = new $M( [
             [0,0,1]
         ] );

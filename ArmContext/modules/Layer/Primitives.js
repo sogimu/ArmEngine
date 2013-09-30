@@ -1,6 +1,6 @@
 
 (function(window) {
-	var Primitives = function() {
+	var Primitives = function(O) {
 
 		// gizmo.Filter(O,"Object");
 
@@ -83,14 +83,67 @@
 
         };
 
+        me.GetChanged = function() {
+            var changedPrimitives = [];
+            var primitive;
+            for(var name in this._primitives) {
+                primitive = this._primitives[name];
+                if(primitive.IsChanged) {
+                    changedPrimitives.push( primitive );
+                }
+            };
+
+            return new ArmContext.Primitives({"primitives": changedPrimitives});
+
+        };
+
+        me.GetIntersectionGroups = function() {
+            var firstPrimitive, secondPrimitive;
+
+            for(var firstPrimitiveName in this._primitives) {
+                firstPrimitive = this._primitives[firstPrimitiveName];
+                for(var secondPrimitiveName in this._primitives) {
+                    secondPrimitive = this._primitives[secondPrimitiveName];
+                    if( firstPrimitive.BoundingBoxHaveIntersectionWith(secondPrimitive) ) {
+                        // Доделать
+                    }    
+                };
+            };
+        };
+
+        me.GetOneBoundingBox = function() {
+            var primitive;
+            var boundingBox;
+            var OneBoundingBox = new ArmContext.BoundingBox();
+
+            for(var name in this._primitives) {
+                primitive = this._primitives[name];
+                boundingBox = primitive.GetBoundingBox();
+                OneBoundingBox = OneBoundingBox.SumWith(boundingBox);
+            };
+            return OneBoundingBox;
+        };
+
 		me.Set = function( O ) {
-            // Have not realisation
-            console.log("Primitives.Set() Have not realisation.");
+            for(var name in O) {
+                switch( name ) {
+                    case "primitives" : {
+                        var primitives = O[name];
+
+                        gizmo.Filter(primitives, "Array");
+                        for(var primitive in primitives) {
+                            this.Add( primitives[primitive] );
+                        };
+                    }; break;
+
+                };
+            };
+
 		};
 
 		me._primitives = [];
 
-		// me.Set( O );
+		me.Set( O || {} );
 
 		return me;
 

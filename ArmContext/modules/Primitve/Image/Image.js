@@ -47,14 +47,28 @@
         me.Clear = function() {
             var ctxRep = this._2dContextRepresentation;
             var intRep = this._internalRepresentation;
+            var boundingBox = this._boundingBox.GetOldPoints();
             var ctx = ctxRep.GetCtx();
 
-            ctx.clearRect(0,0,500,500);
+            ctx.clearRect(boundingBox.point0.x, boundingBox.point0.y, boundingBox.width, boundingBox.height);
 
         };
 
-        me.Update( O );
-        
+        me._internalRepresentation.SetLisener("onChanged", function() {
+            this.SetChanged();            
+        });
+
+        me._2dContextRepresentation.SetLisener("onChanged", function() {
+            this.SetChanged();            
+        });
+
+        me._mvMatrix.SetLisener("onChanged", function() {
+            this.SetChanged();            
+        });
+
+        me.Set( O );
+        me.Update();
+                
         return me;
 
     };

@@ -20,6 +20,33 @@
             var ponts = this.GetPoints();
             return points[2][1] - points[0][1];
         };
+
+        me.Update = function(internalRepresentation, C2dContextRepresentation, mvMatrix) {
+            gizmo.Filter(internalRepresentation,"Object");
+            gizmo.Filter(C2dContextRepresentation,"Object");
+            gizmo.Filter(mvMatrix,"Object");
+
+            var lineWidth = C2dContextRepresentation.GetLineWidth() != "default" ? C2dContextRepresentation.GetLineWidth() : 2;
+            var lineWidthAbout = (lineWidth / 2) + 0.5;
+
+            var internalPoints = internalRepresentation.GetPoints();
+            var newInternalPoints = [
+            [internalPoints[0][0] - lineWidthAbout,internalPoints[0][1] - lineWidthAbout,internalPoints[0][2]],
+            [internalPoints[1][0] + lineWidthAbout,internalPoints[1][1] - lineWidthAbout,internalPoints[1][2]],
+            [internalPoints[2][0] + lineWidthAbout,internalPoints[2][1] + lineWidthAbout,internalPoints[2][2]],
+            [internalPoints[3][0] - lineWidthAbout,internalPoints[3][1] + lineWidthAbout,internalPoints[3][2]]];
+
+            this.SetPoints( newInternalPoints );
+            // this.SetPoints( internalRepresentation.GetPoints() );
+
+            this.SetMatrixOfPoints( this.GetMatrixOfPoints().x(mvMatrix.GetMatrix()) );
+            
+            this.UpdatePolygone();
+
+            // console.log("GlobalRepresentation.Update");
+
+            return this;
+        };
         
         me.ShowPoints = function(ctx) {
             var points = this.GetPoints();
