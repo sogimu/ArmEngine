@@ -1,6 +1,0 @@
-[submodule "lib/Gizmo"]
-	path = lib/Gizmo
-	url = https://github.com/sogimu/Gizmo
-[submodule "lib/stats.js"]
-	path = lib/stats.js
-	url = https://github.com/mrdoob/stats.js
