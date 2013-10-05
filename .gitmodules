@@ -10,3 +10,6 @@
 [submodule "ArmGraph"]
 	path = ArmGraph
 	url = https://github.com/sogimu/ArmGraph
+[submodule "lib/Closure-compiler"]
+	path = lib/Closure-compiler
+	url = https://github.com/sogimu/Closure-compiler
