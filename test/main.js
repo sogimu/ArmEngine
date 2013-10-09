@@ -1,6 +1,6 @@
 window.onload = function() {
 
-    Root = new ArmGraph.Root({fps: 0});
+    Root = new ArmGraph.Root({fps: 20});
 
     Game = function( O ) {
 
@@ -67,8 +67,8 @@ window.onload = function() {
 
         })
         .SetFunc("onMouseMove", function(e) {
-            var x = e.offsetX;
-            var y = e.offsetY;
+            var x = e.e.offsetX;
+            var y = e.e.offsetY;
 
             this.target = {x: x, y: y};
 
@@ -95,8 +95,8 @@ window.onload = function() {
 
         })
         .SetFunc("onMouseDown", function(e) {
-            var x = e.offsetX;
-            var y = e.offsetY;
+            var x = e.e.offsetX;
+            var y = e.e.offsetY;
             
             if( this.Button.HasPoint({x: x, y: y}) ) {
                 this.Button.Set({fillObject: this.onMoveColor})
@@ -111,8 +111,8 @@ window.onload = function() {
 
         })
         .SetFunc("onMouseUp", function(e) {
-            var x = e.offsetX;
-            var y = e.offsetY;
+            var x = e.e.offsetX;
+            var y = e.e.offsetY;
             this.isDruging = false;
 
             this.Button.Set({fillObject: this.normalColor})
